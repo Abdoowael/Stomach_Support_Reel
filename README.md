@@ -1,6 +1,8 @@
 # Stomach Support - AI System Reel
 
-![Project View](video_2026-06-23_20-55-06.mp4)
+<div align="center">
+  <video src="video_2026-06-23_20-55-06.mp4" controls style="max-width: 100%; border-radius: 10px;"></video>
+</div>
 
 ## نظرة عامة (Overview)
 هذا المستودع يحتوي على الواجهات الترويجية (Reels) الخاصة بمشروع التخرج **Stomach Support** لعام 2026، من كلية الحاسبات والمعلومات. 
