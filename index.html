@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stomach Support - Graduation Project Reel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Stomach Support - AI System Reel</title>
+    <!-- Fonts: Cairo for Arabic, Fira Code for Code, Orbitron for Tech Headings -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;600&family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #0f172a;
+            background-color: #050505;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,38 +21,48 @@
         }
 
         .reel-container {
-            width: 405px; /* 9:16 aspect ratio relative to 720px height */
+            width: 405px;
             height: 720px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
+            background: #020617; /* Slate 950 */
             position: relative;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 50px rgba(16, 185, 129, 0.15);
             border-radius: 20px;
-            border: 4px solid #334155;
+            border: 2px solid #0f172a;
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+        /* Tech Background Grid */
+        .grid-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px);
+            background-size: 25px 25px;
+            opacity: 0.3;
+            z-index: 0;
+            perspective: 1000px;
+            transform: scale(1.1);
+            animation: panGrid 20s linear infinite;
+        }
+
+        @keyframes panGrid {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(25px); }
         }
 
         .scene {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease-in-out;
-            padding: 20px;
-            text-align: center;
+            transition: opacity 0.4s ease-in-out;
+            padding: 24px;
+            z-index: 10;
         }
 
         .scene.active {
@@ -59,166 +70,185 @@
             pointer-events: all;
         }
 
-        .heartbeat { animation: heartbeat 1.5s infinite; }
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.3); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.3); }
-            70% { transform: scale(1); }
+        .code-font { font-family: 'Fira Code', monospace; }
+        .tech-font { font-family: 'Orbitron', 'Cairo', sans-serif; }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5), 0 0 20px rgba(16, 185, 129, 0.3);
         }
 
-        .slide-up { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; transform: translateY(50px); opacity: 0; }
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
-        
-        @keyframes slideUp {
-            to { transform: translateY(0); opacity: 1; }
+        .blue-glow {
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5), 0 0 20px rgba(56, 189, 248, 0.3);
         }
 
-        .floating { animation: floating 3s ease-in-out infinite; }
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
+        /* Animations */
+        .fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(30px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        .progress-bar-container {
-            position: absolute;
-            bottom: 10px;
-            left: 20px;
-            right: 20px;
-            height: 4px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 4px;
+        .zoom-in { animation: zoomIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: scale(0.8); }
+        @keyframes zoomIn { to { opacity: 1; transform: scale(1); } }
+
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.6s; }
+        .delay-3 { animation-delay: 0.9s; }
+        .delay-4 { animation-delay: 1.2s; }
+
+        .typewriter {
             overflow: hidden;
+            white-space: nowrap;
+            border-left: 2px solid #10b981; /* Changed to left for RTL */
+            animation: typing 1.5s steps(40, end), blink 0.75s step-end infinite;
+        }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink { 50% { border-color: transparent } }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 10px #10b981;
+            top: -10%;
+            animation: scan 4s linear infinite;
+            z-index: 5;
+        }
+        @keyframes scan {
+            0% { top: -10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.1); z-index: 50;
         }
         .progress-bar {
-            height: 100%;
-            background: #14b8a6;
-            width: 0%;
+            height: 100%; background: #10b981; width: 0%; box-shadow: 0 0 10px #10b981;
+            float: right; /* RTL direction for progress bar */
         }
 
-        .gradient-text {
-            background: linear-gradient(to right, #3b82f6, #14b8a6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Play Button Overlay */
+        #play-overlay {
+            backdrop-filter: blur(8px);
+            background: rgba(2, 6, 23, 0.85);
         }
     </style>
 </head>
 <body>
 
     <div class="reel-container" id="reel">
+        <div class="grid-bg"></div>
+        <div class="scan-line"></div>
         
-        <!-- Scene 1: Hook (0-4s) -->
+        <!-- Scene 1: 0:00 - 0:03 -->
         <div class="scene active" id="scene-1">
-            <div class="text-7xl mb-6 heartbeat">😰</div>
-            <h1 class="text-3xl font-black text-white leading-tight slide-up">
-                بتعاني من ألم في المعدة<br>ومش عارف السبب؟
-            </h1>
-            <p class="text-slate-400 mt-4 text-lg slide-up delay-1">خايف ومحتار تروح لمين؟</p>
-        </div>
-
-        <!-- Scene 2: Intro (4-9s) -->
-        <div class="scene" id="scene-2">
-            <div class="w-32 h-32 rounded-full bg-gradient-to-tr from-blue-600 to-teal-400 p-1 mx-auto mb-6 slide-up floating">
-                <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center text-5xl">
-                    🩺
+            <div class="w-full max-w-sm">
+                <p class="code-font text-emerald-400 text-sm mb-4 typewriter w-fit" dir="ltr">> SYSTEM INITIALIZING...</p>
+                <div class="border border-emerald-500/30 bg-black/50 p-6 rounded-lg backdrop-blur-sm zoom-in delay-1 text-center">
+                    <h1 class="tech-font text-white text-2xl leading-relaxed font-bold">
+                        <span class="text-emerald-400 font-black tech-font text-3xl" dir="ltr">«STOMACH SUPPORT</span><br>
+                        <span class="text-slate-300 text-xl font-bold mt-2 block">جارِ تحميل النظام الخبير...»</span>
+                    </h1>
                 </div>
             </div>
-            <h1 class="text-4xl font-black gradient-text slide-up delay-1">
-                Stomach Support
-            </h1>
-            <h2 class="text-xl text-white font-bold mt-2 slide-up delay-2">
-                رفيقك الصحي الذكي
-            </h2>
-            <p class="text-slate-300 mt-4 text-lg slide-up delay-3 px-4 glass py-2">
-                أول منصة لتشخيص أمراض الجهاز الهضمي بالذكاء الاصطناعي
+        </div>
+
+        <!-- Scene 2: 0:03 - 0:07 -->
+        <div class="scene" id="scene-2">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-slate-200 mb-8 fade-in-up leading-relaxed">
+                    ملايين الأشخاص يعانون من<br>
+                    <span class="text-red-400 font-black text-3xl">مشاكل الجهاز الهضمي</span><br>يومياً.
+                </h2>
+                <h3 class="text-3xl font-black text-emerald-400 fade-in-up delay-1">
+                    هل يمكن للذكاء الاصطناعي المساعدة؟
+                </h3>
+            </div>
+        </div>
+
+        <!-- Scene 3: 0:07 - 0:12 -->
+        <div class="scene items-start justify-center" id="scene-3">
+            <div class="w-full bg-slate-900/80 border border-slate-700 rounded-lg p-5 mb-8 fade-in-up code-font text-sm shadow-xl" dir="ltr">
+                <div class="flex gap-2 mb-4 border-b border-slate-700 pb-3">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <p class="text-purple-400 mb-1">if <span class="text-blue-400">symptoms_detected</span>:</p>
+                <p class="text-yellow-300 pl-6 mb-1">analyze()</p>
+                <p class="text-yellow-300 pl-6 mb-1">diagnose()</p>
+                <p class="text-yellow-300 pl-6">recommend()</p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-3 w-full font-bold">
+                <span class="px-4 py-2 bg-red-500/20 text-red-400 rounded-full border border-red-500/50 zoom-in delay-1">ألم المعدة</span>
+                <span class="px-4 py-2 bg-orange-500/20 text-orange-400 rounded-full border border-orange-500/50 zoom-in delay-2">غثيان</span>
+                <span class="px-4 py-2 bg-yellow-500/20 text-yellow-400 rounded-full border border-yellow-500/50 zoom-in delay-3">حموضة</span>
+                <span class="px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-full border border-emerald-500/50 zoom-in delay-4">انتفاخ</span>
+            </div>
+        </div>
+
+        <!-- Scene 4: 0:12 - 0:17 -->
+        <div class="scene" id="scene-4">
+            <div class="w-32 h-32 mb-6 zoom-in relative flex items-center justify-center">
+                <div class="absolute inset-0 border-4 border-emerald-500/30 rounded-full animate-ping"></div>
+                <div class="w-24 h-24 bg-emerald-500/20 border-2 border-emerald-400 rounded-full flex items-center justify-center backdrop-blur-md">
+                    <span class="text-5xl">🧠</span>
+                </div>
+            </div>
+            <h1 class="tech-font text-3xl text-emerald-400 text-glow font-bold mb-4 zoom-in delay-1 text-center" dir="ltr">STOMACH SUPPORT</h1>
+            <p class="text-2xl text-slate-300 text-center fade-in-up delay-2 leading-relaxed">
+                <span class="text-white font-bold text-3xl mt-1 block mb-2">نظام خبير ذكي</span>لتحليل أمراض الجهاز الهضمي
             </p>
         </div>
 
-        <!-- Scene 3: Features (9-16s) -->
-        <div class="scene" id="scene-3">
-            <h1 class="text-3xl font-black text-white mb-8 slide-up">ليه تختارنا؟ 🚀</h1>
-            
-            <div class="flex flex-col gap-4 w-full px-6">
-                <div class="glass p-4 flex items-center gap-4 slide-up delay-1 text-right">
-                    <div class="text-3xl bg-blue-500/20 p-3 rounded-xl">🤖</div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">تشخيص ذكي دقيق</h3>
-                        <p class="text-slate-400 text-sm">أكثر من 50 مرض مسجل</p>
-                    </div>
+        <!-- Scene 5: 0:17 - 0:22 -->
+        <div class="scene items-start justify-center px-8" id="scene-5">
+            <div class="space-y-6 w-full text-xl font-bold text-slate-200">
+                <div class="flex items-center gap-4 fade-in-up">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/50 flex-shrink-0">✓</div>
+                    <span>تحليل الأعراض</span>
                 </div>
-                
-                <div class="glass p-4 flex items-center gap-4 slide-up delay-2 text-right">
-                    <div class="text-3xl bg-green-500/20 p-3 rounded-xl">🍎</div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">دليل تغذية مخصص</h3>
-                        <p class="text-slate-400 text-sm">تعرف تاكل إيه وتتجنب إيه</p>
-                    </div>
+                <div class="flex items-center gap-4 fade-in-up delay-1">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/50 flex-shrink-0">✓</div>
+                    <span>التنبؤ بالأمراض</span>
                 </div>
-                
-                <div class="glass p-4 flex items-center gap-4 slide-up delay-3 text-right">
-                    <div class="text-3xl bg-teal-500/20 p-3 rounded-xl">👨‍⚕️</div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">أفضل الأطباء</h3>
-                        <p class="text-slate-400 text-sm">حجز مباشر ومتابعة مستمرة</p>
-                    </div>
+                <div class="flex items-center gap-4 fade-in-up delay-2">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/50 flex-shrink-0">✓</div>
+                    <span>توصيات طبية</span>
+                </div>
+                <div class="flex items-center gap-4 fade-in-up delay-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/50 flex-shrink-0">✓</div>
+                    <span>دعم سريع للقرار</span>
                 </div>
             </div>
         </div>
 
-        <!-- Scene 4: AI Chat Demo (16-22s) -->
-        <div class="scene" id="scene-4">
-            <div class="w-full px-4 text-right">
-                <h2 class="text-2xl font-bold gradient-text mb-6 text-center slide-up">STOMACH AI Assistant</h2>
-                
-                <div class="glass p-4 mb-4 slide-up delay-1 rounded-br-none bg-blue-600/20 ml-12">
-                    <p class="text-white">عندي حموضة شديدة بعد الأكل، أعمل إيه؟</p>
-                </div>
-                
-                <div class="glass p-4 slide-up delay-2 rounded-bl-none bg-teal-600/20 mr-12 relative">
-                    <div class="absolute -top-3 -right-3 text-2xl">🤖</div>
-                    <p class="text-white text-sm leading-relaxed" id="typewriter-text"></p>
-                </div>
+        <!-- Scene 6: 0:22 - 0:27 -->
+        <div class="scene" id="scene-6">
+            <div class="flex flex-col items-center gap-8 mb-12 w-full font-black">
+                <h2 class="text-5xl text-white tracking-wider zoom-in text-glow">الدقة</h2>
+                <h2 class="text-5xl text-white tracking-wider zoom-in delay-1 text-glow">السرعة</h2>
+                <h2 class="text-5xl text-white tracking-wider zoom-in delay-2 text-glow">الابتكار</h2>
+            </div>
+            
+            <div class="w-full text-center fade-in-up delay-3 bg-emerald-900/40 py-5 border-y border-emerald-500/40 backdrop-blur-md">
+                <p class="text-emerald-400 font-black text-3xl">مدعوم بالذكاء الاصطناعي</p>
             </div>
         </div>
 
-        <!-- Scene 5: Outro & Team (22-30s) -->
-        <div class="scene" id="scene-5">
-            <h1 class="text-3xl font-black gradient-text slide-up mb-3">
-                مشروع تخرج 2026
-            </h1>
+        <!-- Scene 7: 0:27 - 0:30 -->
+        <div class="scene" id="scene-7">
+            <h1 class="tech-font text-4xl text-emerald-400 text-glow font-bold mb-8 zoom-in text-center" dir="ltr">STOMACH SUPPORT</h1>
             
-            <!-- Supervisors -->
-            <div class="w-full glass p-3 mb-3 slide-up delay-1 text-center border-t-2 border-teal-500">
-                <h2 class="text-teal-400 font-black text-sm mb-2 shadow-sm">تحت إشراف</h2>
-                <div class="text-white text-sm font-bold flex flex-col gap-1">
-                    <p>أ.م.د / هاني سعيد</p>
-                    <p>م / أحمد ماهر &nbsp;|&nbsp; م / ندى خالد</p>
-                </div>
+            <div class="text-center fade-in-up delay-1 space-y-3 mb-10 bg-slate-900/50 p-6 rounded-xl border border-slate-700/50 w-full backdrop-blur-sm">
+                <p class="text-slate-200 font-bold text-2xl">مشروع تخرج 2026</p>
+                <p class="text-slate-400 text-lg">كلية الحاسبات والمعلومات</p>
             </div>
-            
-            <!-- Team Members -->
-            <div class="w-full glass py-3 px-2 slide-up delay-2 text-center border-t-2 border-blue-500">
-                <h2 class="text-blue-400 font-black text-sm mb-3">أعضاء فريق مشروع التخرج</h2>
-                
-                <!-- Use grid for compact, centered, and readable names -->
-                <div class="grid grid-cols-2 gap-x-1 gap-y-1.5 text-[10.5px] leading-tight text-slate-100 font-bold text-right" style="direction: rtl;">
-                    <p>١. آية أحمد إبراهيم أحمد محمد</p>
-                    <p>٢. رنادا خالد محمد محمد</p>
-                    <p>٣. ساره محمود رمضان عبد أبو العلا</p>
-                    <p>٤. سلمي عمرو طلعت سعيد محمد غزال</p>
-                    <p>٥. شاهيناز طه السيد محمد أحمد</p>
-                    <p>٦. شهد ياسر حسين محمد</p>
-                    <p>٧. شيماء أشرف إسماعيل</p>
-                    <p>٨. عبد الرحمن وائل أبو عرب</p>
-                    <p>٩. عبد الرحمن وائل عبد المنعم</p>
-                    <p>١٠. مجدي أحمد السيد سميح</p>
-                    <p>١١. محمد إبراهيم محمد الزيادي</p>
-                    <p>١٢. ياسر تامر محمد السيد أحمد</p>
-                </div>
+
+            <div class="text-5xl text-white font-black zoom-in delay-2 blue-glow mt-2">
+                شكراً لكم
             </div>
         </div>
 
@@ -228,39 +258,27 @@
         </div>
         
         <!-- Play Button Overlay -->
-        <div id="play-overlay" class="absolute inset-0 bg-slate-900/80 z-50 flex flex-col items-center justify-center cursor-pointer backdrop-blur-sm">
-            <div class="w-20 h-20 bg-teal-500 rounded-full flex items-center justify-center pl-2 text-white text-4xl shadow-[0_0_30px_rgba(20,184,166,0.6)] heartbeat">
+        <div id="play-overlay" class="absolute inset-0 z-50 flex flex-col items-center justify-center cursor-pointer">
+            <div class="w-24 h-24 bg-emerald-600/20 rounded-full flex items-center justify-center pl-1 text-emerald-400 border-2 border-emerald-500 text-5xl shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-transform hover:scale-110" dir="ltr">
                 ▶
             </div>
-            <p class="text-white mt-6 font-bold text-xl">اضغط لتشغيل الفيديو</p>
+            <p class="text-emerald-400 mt-6 text-2xl font-bold text-glow">بدء التشغيل</p>
         </div>
     </div>
 
     <script>
+        // Durations per scene based on timestamps
         const scenes = [
-            { id: 'scene-1', duration: 4000 },
-            { id: 'scene-2', duration: 5000 },
-            { id: 'scene-3', duration: 7000 },
-            { id: 'scene-4', duration: 6000 },
-            { id: 'scene-5', duration: 8000 }
+            { id: 'scene-1', duration: 3000 },
+            { id: 'scene-2', duration: 4000 },
+            { id: 'scene-3', duration: 5000 },
+            { id: 'scene-4', duration: 5000 },
+            { id: 'scene-5', duration: 5000 },
+            { id: 'scene-6', duration: 5000 },
+            { id: 'scene-7', duration: 3000 }
         ];
         
-        let currentScene = 0;
-        let startTime;
-        const totalDuration = 30000; // 30 seconds
-
-        function typeWriter(elementId, text, speed) {
-            let i = 0;
-            document.getElementById(elementId).innerHTML = '';
-            function type() {
-                if (i < text.length) {
-                    document.getElementById(elementId).innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            type();
-        }
+        const totalDuration = scenes.reduce((sum, s) => sum + s.duration, 0); // 30000ms
 
         function playReel() {
             document.getElementById('play-overlay').style.display = 'none';
@@ -268,12 +286,12 @@
             // Start Progress
             const progressBar = document.getElementById('progress');
             progressBar.style.transition = `width ${totalDuration}ms linear`;
-            setTimeout(() => { progressBar.style.width = '100%'; }, 50);
+            void progressBar.offsetWidth;
+            progressBar.style.width = '100%';
 
             // Hide all scenes
             document.querySelectorAll('.scene').forEach(s => {
                 s.classList.remove('active');
-                void s.offsetWidth; 
             });
 
             // Show first scene
@@ -290,18 +308,19 @@
                     
                     // Show next
                     const nextScene = document.getElementById(scenes[i].id);
-                    void nextScene.offsetWidth;
+                    void nextScene.offsetWidth; // Trigger reflow to restart CSS animations
                     nextScene.classList.add('active');
-
-                    // Special actions per scene
-                    if (scenes[i].id === 'scene-4') {
-                        setTimeout(() => {
-                            typeWriter('typewriter-text', "أنصحك بتناول كوب حليب بارد وتجنب الأطعمة الحارة. إذا استمر الألم، يمكنك حجز موعد مع طبيب عبر منصتنا.", 40);
-                        }, 800);
-                    }
 
                 }, accumulatedTime);
             }
+            
+            // Show overlay again at the end
+            setTimeout(() => {
+                document.getElementById('play-overlay').style.display = 'flex';
+                document.querySelector('#play-overlay p').innerText = "إعادة التشغيل";
+                progressBar.style.transition = 'none';
+                progressBar.style.width = '0%';
+            }, totalDuration + 1000);
         }
 
         document.getElementById('play-overlay').addEventListener('click', playReel);
